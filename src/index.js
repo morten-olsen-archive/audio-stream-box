@@ -17,6 +17,7 @@ app.get('/stream', (request, response) => {
     outSampleRate: 22050,
     mode: lame.STEREO // STEREO (default), JOINTSTEREO, DUALCHANNEL or MONO
   });
+  response.contentType('audio/mpeg');
   mic.pipe(encoder).pipe(response);
 });
 
