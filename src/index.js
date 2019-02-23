@@ -1,7 +1,6 @@
 const express = require('express');
 const createMic = require('mic-stream');
 const createBonjour = require('bonjour');
-const speaker = require('speaker');
 const lame = require('lame');
 
 const create = ({
