@@ -1,0 +1,17 @@
+language: node_js
+node_js:
+- '10'
+install:
+- npm install
+script:
+- npm build
+deploy:
+  provider: releases
+  api_key:
+    secure: n+vG9jaDdMoTbTng8RiIj52aaTcbqrzLJObBTsrVIJjhsr81nCXHjpH+Fda9kxs/k8uzPN4Xcbmc44hZw3Hr0s8vH1xweOjiK9RPZSp7NEcrXHRkrv7Lha/w7M/zlhbPOeC/fC20qxuOc/iyo5jj/KKqVLQRiNG8l8R/lL+WBB3hEEzps8ah9wayxO78SzxQ1PtR3l/rExttAkKgzWFhDs0HEF8IUDeBcdv0+c5Ety+SsIYxJEk9PddrVKYRZ4lCAR6bb5LvYds5XDbnEjYRX+92Ps9UEUo50LUZeCRNRgwOIXFM4BEezsxyB3zPVm/vQGpwMetv4APQ0NFadNa/Y0fX+hb0XK2zYH2UbyGa5OhgvpQmr8Jw/fCFV5eUuDc8iCkcejezTRHcDpfOOSztCW9bg5iHoGCho2XB8n+L2w5BoSVzo5FZQ2L7CHX6hB+7MEgDN8w7tiMlHwA+ZNThfORRuErrz1EWus4zUvsiGyusjRS/Ms3CjnA9WmrA1yO0ckqAl4meQOrlfmraGE05g1rkpkPFcTW4JxNWlRuGd3AEJYD+TRf1/7d7cG1h5xD0jEWE29Yxoo1aPZvYWlWYFAEAFURY/SvfqW/67LKg/AArYg3MMT1fD7qhuVto9qM9KpgCmEIfDGJXbJS2ntUtOAcso2GvDktC1YLUWm/ADYM=
+  file:
+    - "./dist/pkg/streamer-linux-x64"
+    - "./dist/pkg/streamer-linux-armv7"
+    - "./dist/pkg/streamer-macos-x64"
+  on:
+    repo: morten-olsen/audio-stream-box
