@@ -14,4 +14,5 @@ deploy:
     - "./dist/pkg/streamer-linux-armv7"
     - "./dist/pkg/streamer-macos-x64"
   on:
-    repo: morten-olsen/audio-stream-box
+    tags: true
+    #repo: morten-olsen/audio-stream-box
