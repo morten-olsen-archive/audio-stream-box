@@ -13,6 +13,7 @@ deploy:
     - "./dist/pkg/streamer-linux-x64"
     - "./dist/pkg/streamer-linux-armv7"
     - "./dist/pkg/streamer-macos-x64"
+  skip_cleanup: true
   on:
     tags: true
     #repo: morten-olsen/audio-stream-box
