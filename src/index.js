@@ -1,5 +1,5 @@
 const express = require('express');
-const createMic = require('mic-stream');
+const createMic = require('./mic');
 const createBonjour = require('bonjour');
 const lame = require('lame');
 
@@ -20,13 +20,34 @@ const create = ({
       mode: lame.STEREO,
     });
     response.contentType('audio/mpeg');
-    mic.pipe(encoder).pipe(response);
+    response.set('Transfer-Encoding', 'chunked');
+    response.set('Content-Disposition', 'attachment; filename=stream.mp3');
+    response.once('end', () => {
+      console.log('end');
+    });
+    const audio = mic.pipe(encoder);
+    audio.on('data', (data) => {
+      //console.log('data')
+        // response.send(data);
+    });
+    audio.pipe(response);
+    //mic.pipe(encoder).pipe(response);
   });
 
   app.get('/info', (request, response) => {
     response.json({
       name,
     });
+  });
+
+  app.get('/', (req, res) => {
+res.end(`
+    <html>
+      <body>
+        <audio controls src="./stream" />
+      </body>
+</html>
+    `);
   });
 
   app.listen(port, () => {
