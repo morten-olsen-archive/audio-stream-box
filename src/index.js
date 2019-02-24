@@ -1,3 +1,4 @@
+const path = require('path');
 const express = require('express');
 const createMic = require('./mic');
 const createBonjour = require('bonjour');
@@ -7,31 +8,29 @@ const create = ({
   name,
   port,
 }) => {
+  const mic = createMic();
+  const encoder = new lame.Encoder({
+    channels: 2,
+    bitDepth: 16,
+    sampleRate: 44100,
+    bitRate: 320,
+    outSampleRate: 44100,
+    mode: lame.STEREO,
+  });
+  const audio = mic.pipe(encoder);
   const bonjour = createBonjour();
   const app = express();
+
+  app.use('/', express.static(path.join(__dirname, '../public')));
+
   app.get('/stream', (request, response) => {
-    const mic = createMic();
-    const encoder = new lame.Encoder({
-      channels: 2,
-      bitDepth: 16,
-      sampleRate: 44100,
-      bitRate: 128,
-      outSampleRate: 22050,
-      mode: lame.STEREO,
-    });
     response.contentType('audio/mpeg');
     response.set('Transfer-Encoding', 'chunked');
     response.set('Content-Disposition', 'attachment; filename=stream.mp3');
-    response.once('end', () => {
-      console.log('end');
-    });
-    const audio = mic.pipe(encoder);
+    response.flushHeaders();
     audio.on('data', (data) => {
-      //console.log('data')
-        // response.send(data);
+      response.write(data);
     });
-    audio.pipe(response);
-    //mic.pipe(encoder).pipe(response);
   });
 
   app.get('/info', (request, response) => {
